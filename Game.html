@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js" defer></script>
+    <script src="app.js" defer></script>
+    <link rel="stylesheet" href="bootstrap.css">
+    <script src="jquery-3.6.4.js"></script>
+    <script src="popper.js"></script>
+    <script src="bootstrap.js"></script>
+    <title>Monster slayer</title>
+</head>
+
+<body>
+    <div class="container p-3 bg-light" id="game">
+        <header>
+            <h1 class="display-4 text-sm-center mb-5 bg-warning">Monster Slayer</h1>
+        </header>
+        <section class="my-5">
+            <h4>Monster's Health</h4>
+            <div class="progress">
+                <div class="progress-bar bg-danger" role="progressbar" :style="monsterBarStyles">{{
+                    monsterHealth }}</div>
+            </div>
+            <br>
+            <h4>Your Health</h4>
+            <div class="progress">
+                <div class="progress-bar bg-success" role="progressbar" :style="playerBarStyles">{{
+                    playerHealth }}</div>
+            </div>
+        </section>
+        <section v-if="winner" class="mt-3 mb-3">
+            <h3 class="text-center">Game over!</h3>
+            <h3 v-if="winner === 'player'" class="text-center text-success">You won</h3>
+            <h3 v-else-if="winner === 'monster'" class="text-center text-danger">You lost</h3>
+            <h3 v-else class="text-center text-info">It's a draw</h3>
+            <div class="text-center">
+                <button class="btn btn-info" @click="resetGame">Restart</button>
+            </div>
+        </section>
+        <section v-else>
+            <div class="m-2 d-flex justify-content-center">
+                <button class="btn btn-danger" @click="attackMonster">Attack</button>
+            </div>
+            <div class="m-2 d-flex justify-content-center">
+                <button class="btn btn-danger" @click="specialAttack" :disabled="allowSpecialAttack">Special
+                    Attack</button>
+            </div>
+            <div class="m-2 d-flex justify-content-center">
+                <button class="btn btn-success" @click="healPlayer">Heal</button>
+            </div>
+            <div class="m-2 d-flex justify-content-center">
+                <button class="btn btn-danger" @click="surrendered">Surrender</button>
+            </div>
+        </section>
+
+        <footer>
+            <h5 class="text-center bg-secondary text-light p-2">Battle Log</h5>
+            <ul class="list-group">
+                <li class="list-group-item text-center" v-if="battleLogs.length === 0">Start the game!</li>
+                <li class="list-group-item text-center text-capitalize" v-for="battleLog in battleLogs">
+                    {{battleLog.actionBy}} - {{battleLog.actionType}} - {{battleLog.actionValue}}
+                </li>
+            </ul>
+        </footer>
+
+    </div>
+
+</body>
+
+</html>
